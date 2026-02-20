@@ -24,7 +24,7 @@ module "linux_vm_01" {
       network    = "projects/myproject-prod-01/global/networks/vpc-main"
       subnetwork = "projects/myproject-prod-01/regions/europe-west2/subnetworks/subnet-test-01"
 
-      nat = true
+      nat = false
     }
   ]
 
