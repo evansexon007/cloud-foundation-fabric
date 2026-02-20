@@ -1,5 +1,5 @@
 module "linux_vm_01" {
-  source = "../../modules/compute-vm" # adjust if path differs
+  source = "../../modules/compute-vm"
 
   project_id = "myproject-testsexon-01"
   name       = "linux-vm-01"

@@ -5,7 +5,7 @@ module "nat_shared_vpc" {
   name       = "nat-europe-west2"
   # Create router automatically
   router_create  = true
-  router_network = data.google_compute_network.shared_vpc.name
+  router_network = module.vpc_main.name
   # Optional but recommended (internal ASN)
   router_asn = 64514
   type       = "PUBLIC"
@@ -14,9 +14,4 @@ module "nat_shared_vpc" {
   }
   logging_filter = "ERRORS_ONLY"
   endpoint_types = ["ENDPOINT_TYPE_VM"]
-}
-
-data "google_compute_network" "shared_vpc" {
-  project = var.host_project_id
-  name    = "vpc-main"
 }
