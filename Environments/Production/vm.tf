@@ -35,4 +35,9 @@ module "linux_vm_01" {
     email  = google_service_account.web_sa.email
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
+
+  depends_on = [
+    module.vpc_main
+  ]
+
 }
