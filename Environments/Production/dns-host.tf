@@ -28,7 +28,7 @@ module "dns_test_evancloud_private" {
 
     private = {
       client_networks = [
-        module.vpc_hub.self_link
+        module.vpc_main.self_link
       ]
     }
   }
