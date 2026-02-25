@@ -1,5 +1,5 @@
 resource "google_dns_policy" "inbound_forwarding" {
-  name                      = "dns-inbound-forwarding"
+  name                      = "dns-hubinbound-forwarding"
   enable_inbound_forwarding = true
   enable_logging            = true
 
