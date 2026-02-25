@@ -13,5 +13,5 @@ provider "google" {
 
 provider "google" {
   alias   = "standalone"
-  project = "myproject-standalone-01"
+  project = "myproject-standalone"
 }
