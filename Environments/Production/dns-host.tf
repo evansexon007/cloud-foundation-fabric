@@ -63,3 +63,22 @@ resource "google_project_service" "dns_standalone" {
   service = "dns.googleapis.com"
   disable_on_destroy = false
 }
+
+
+module "dns_peer_testevan_to_hub" {
+  source = "../../modules/dns"
+
+  project_id  = var.host_project_id
+  name        = "peer-testevan-to-hub"
+  description = "Peering zone so Shared VPC can resolve testevan.co.uk via Hub DNS"
+
+  zone_config = {
+    domain = "test.evancloud.co.uk."
+    peering = {
+      client_networks = [
+        module.vpc_main.self_link
+      ]
+      peer_network = module.vpc_main_standalone.self_link
+    }
+  }
+}
