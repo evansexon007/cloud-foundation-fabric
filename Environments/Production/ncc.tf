@@ -6,7 +6,7 @@ resource "google_project_service" "ncc" {
 }
 
 resource "google_project_service" "ncc_prod" {
-  project            = "myproject-prodsexon01"
+  project            = "myproject-prod-01"
   service            = "networkconnectivity.googleapis.com"
   disable_on_destroy = false
 }
@@ -31,7 +31,7 @@ resource "google_network_connectivity_spoke" "vpc_main_standalone" {
 }
 
 resource "google_network_connectivity_spoke" "spoke_vpc_vpc_main" {
-  project     = "myproject-prodsexon01"
+  project     = "myproject-prod-01"
   name        = "vpc_main"
   location    = "global"
   hub         = google_network_connectivity_hub.hub.id
