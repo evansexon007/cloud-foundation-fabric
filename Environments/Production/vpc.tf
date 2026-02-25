@@ -36,3 +36,37 @@ resource "google_project_service" "compute" {
 
   disable_on_destroy = false
 }
+
+module "vpc_main_standalone" {
+  source     = "../../modules/net-vpc"
+  project_id = "myproject-standalone"
+  name       = "vpc-hub"
+
+  subnets = [
+    {
+      name          = "subnet-hub-01"
+      region        = "europe-west2"
+      ip_cidr_range = "10.210.0.0/24"
+    },
+    {
+      name          = "subnet-hub-02"
+      region        = "europe-west2"
+      ip_cidr_range = "10.220.0.0/24"
+    }
+
+
+  ]
+  depends_on = [
+    google_project_service.compute_standalone
+  ]
+  shared_vpc_host = false
+  shared_vpc_service_projects = [
+  ]
+}
+
+resource "google_project_service" "compute_standalone" {
+  project = "myproject-standalone"
+  service = "compute.googleapis.com"
+
+  disable_on_destroy = false
+}
