@@ -13,3 +13,7 @@ variable "host_project_id" {
 variable "service_project_id" {
   type = string
 }
+
+variable "standalone_service_project_id" {
+  type = string
+}
