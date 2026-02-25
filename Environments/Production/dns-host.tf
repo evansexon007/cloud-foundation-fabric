@@ -97,7 +97,7 @@ module "dns_peer_testevan_to_hub" {
 module "dns_forward_rws_local" {
   source      = "../../modules/dns"
 
-  project_id  = host_project_id
+  project_id  = var.host_project_id
   name        = "fz-rws-local"
   description = "Forwarding zone for AD domain rws.local"
   force_destroy = false
