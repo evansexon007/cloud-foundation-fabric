@@ -91,3 +91,37 @@ module "dns_peer_testevan_to_hub" {
     google_project_service.dns2
   ]
 }
+
+## custom forwarders
+
+module "dns_forward_rws_local" {
+  source      = "../../modules/dns"
+
+  project_id  = host_project_id
+  name        = "fz-rws-local"
+  description = "Forwarding zone for AD domain rws.local"
+  force_destroy = false
+
+  zone_config = {
+    domain = "rws.local."
+
+    forwarding = {
+      client_networks = [
+        module.vpc_main.self_link   # Shared VPC HOST network self_link
+      ]
+
+      # map(name => ipv4)
+      forwarders = {
+        "dc01" = "10.194.22.1"
+        "dc02" = "10.194.22.2"
+      }
+    }
+  }
+
+  # No recordsets for forwarding zones
+  recordsets = {}
+
+  depends_on = [
+    google_project_service.dns2
+  ]
+}
