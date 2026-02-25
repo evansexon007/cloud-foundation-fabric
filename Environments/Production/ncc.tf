@@ -5,6 +5,12 @@ resource "google_project_service" "ncc" {
   disable_on_destroy = false
 }
 
+resource "google_project_service" "ncc_prod" {
+  project            = "myproject-prodsexon01"
+  service            = "networkconnectivity.googleapis.com"
+  disable_on_destroy = false
+}
+
 # 1) NCC hub (control plane object)
 resource "google_network_connectivity_hub" "hub" {
   project     = "myproject-standalone"
@@ -33,4 +39,5 @@ resource "google_network_connectivity_spoke" "spoke_vpc_vpc_main" {
   linked_vpc_network {
     uri = module.vpc_main.self_link
   }
+  depends_on  = [google_project_service.ncc_prod]
 }
