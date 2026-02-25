@@ -51,3 +51,9 @@ module "dns_test_evancloud_private" {
     }
   }
 }
+
+resource "google_project_service" "dns_standalone" {
+  project = "myproject-standalone"
+  service = "dns.googleapis.com"
+  disable_on_destroy = false
+}
