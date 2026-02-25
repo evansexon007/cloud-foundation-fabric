@@ -4,13 +4,13 @@ resource "google_dns_policy" "inbound_forwarding" {
   enable_logging            = true
 
   networks {
-    network_url = module.vpc_main.self_link
+    network_url = module.vpc_main_standalone.self_link
   }
- depends_on = [module.vpc_main, google_project_service.dns]
+ depends_on = [module.vpc_main_standalone, google_project_service.dns]
 }
 
 resource "google_project_service" "dns" {
-  project = "myproject-prod-01"
+  project = "myproject-standalone"
   service = "dns.googleapis.com"
   disable_on_destroy = false
 }
@@ -18,7 +18,7 @@ resource "google_project_service" "dns" {
 module "dns_test_evancloud_private" {
   source = "../../modules/dns"
 
-  project_id    = "myproject-prod-01"
+  project_id    = "myproject-standalone"
   name          = "pz-test-evancloud-co-uk"
   description   = "Private zone for test.evancloud.co.uk"
   force_destroy = true
@@ -28,7 +28,7 @@ module "dns_test_evancloud_private" {
 
     private = {
       client_networks = [
-        module.vpc_main.self_link
+        module.vpc_main_standalone.self_link
       ]
     }
   }
