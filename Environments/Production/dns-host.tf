@@ -14,3 +14,40 @@ resource "google_project_service" "dns" {
   service = "dns.googleapis.com"
   disable_on_destroy = false
 }
+
+module "dns_test_evancloud_private" {
+  source = "../../modules/dns"
+
+  project_id    = "myproject-prod-01"
+  name          = "pz-test-evancloud-co-uk"
+  description   = "Private zone for test.evancloud.co.uk"
+  force_destroy = true
+
+  zone_config = {
+    domain = "test.evancloud.co.uk."
+
+    private = {
+      client_networks = [
+        module.vpc_hub.self_link
+      ]
+    }
+  }
+
+  recordsets = {
+
+    "A app" = {
+      ttl     = 300
+      records = ["10.100.10.5"]
+    }
+
+    "A api" = {
+      ttl     = 300
+      records = ["10.100.10.6"]
+    }
+
+    "CNAME www" = {
+      ttl     = 300
+      records = ["app.test.evancloud.co.uk."]
+    }
+  }
+}
