@@ -16,6 +16,7 @@ resource "google_dns_policy" "inbound_forwarding" {
 
 resource "google_project_service" "dns" {
   project = "myproject-standalone"
+  provider = google.standalone
   service = "dns.googleapis.com"
   disable_on_destroy = false
 }
