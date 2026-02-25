@@ -10,3 +10,8 @@ terraform {
 provider "google" {
   project = "myproject-prod-01"
 }
+
+provider "google" {
+  alias   = "standalone"
+  project = "myproject-standalone-01"
+}

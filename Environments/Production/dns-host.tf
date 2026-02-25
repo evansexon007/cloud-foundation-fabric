@@ -1,12 +1,17 @@
 resource "google_dns_policy" "inbound_forwarding" {
-  name                      = "dns-hubinbound-forwarding"
+  provider                  = google.standalone
+  name                      = "dns-inbound-forwarding"
   enable_inbound_forwarding = true
   enable_logging            = true
 
   networks {
     network_url = module.vpc_main_standalone.self_link
   }
- depends_on = [module.vpc_main_standalone, google_project_service.dns]
+
+  depends_on = [
+    module.vpc_main_standalone,
+    google_project_service.dns
+  ]
 }
 
 resource "google_project_service" "dns" {
