@@ -22,7 +22,7 @@ resource "google_project_service" "dns" {
 }
 
 resource "google_project_service" "dns2" {
-  project = myproject-prod-01
+  project = "myproject-prod-01"
   service = "dns.googleapis.com"
   disable_on_destroy = false
 }
