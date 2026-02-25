@@ -21,6 +21,12 @@ resource "google_project_service" "dns" {
   disable_on_destroy = false
 }
 
+resource "google_project_service" "dns2" {
+  project = myproject-prod-01
+  service = "dns.googleapis.com"
+  disable_on_destroy = false
+}
+
 module "dns_test_evancloud_private" {
   source = "../../modules/dns"
 
@@ -81,4 +87,7 @@ module "dns_peer_testevan_to_hub" {
       peer_network = module.vpc_main_standalone.self_link
     }
   }
+  depends_on = [
+    google_project_service.dns2
+  ]
 }
