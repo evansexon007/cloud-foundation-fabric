@@ -112,8 +112,8 @@ module "dns_forward_rws_local" {
 
       # map(name => ipv4)
       forwarders = {
-        "dc01" = "10.194.22.1" = "private"
-        "dc02" = "10.194.22.2" = "private"
+        "10.194.22.1" = "private"
+        "10.194.22.2" = "private"
       }
     }
   }
