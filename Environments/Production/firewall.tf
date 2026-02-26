@@ -41,7 +41,7 @@ module "fw_policy_shared_vpc_admin" {
       enable_logging = true
       description    = "Allow Google LB health checks to backend VMs (tcp/80)"
 
-      target_tags = ["lb-backend"]
+      target_service_accounts = [google_service_account.web_sa.email]
 
       match = {
         source_ranges = [
@@ -64,7 +64,7 @@ module "fw_policy_shared_vpc_admin" {
       enable_logging = true
       description    = "Allow External Application LB proxy traffic (tcp/80)"
 
-      target_tags = ["lb-backend"]
+      target_service_accounts = [google_service_account.web_sa.email]
 
       match = {
         source_ranges = [
