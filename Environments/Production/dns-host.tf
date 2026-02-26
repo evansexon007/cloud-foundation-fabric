@@ -192,14 +192,29 @@ module "dns_forward_rws_local" {
 #  ]
 #}
 
-resource "google_compute_global_forwarding_rule" "psc_googleapis" {
-  project               = "myproject-standalone"
-  name                  = "googleapis"
-  network               = module.vpc_main_standalone.self_link
-  ip_address            = google_compute_global_address.psc_googleapis_ip.id
-  target                = "all-apis"     # or "vpc-sc"
-  load_balancing_scheme = ""
+resource "google_dns_managed_zone" "pz_storage_googleapis" {
+  project    = "myproject-standalone"
+  name       = "pz-storage-googleapis"
+  dns_name   = "storage.googleapis.com."
+  visibility = "private"
+
+  private_visibility_config {
+    networks {
+      network_url = module.vpc_main_standalone.self_link
+    }
+  }
 
   depends_on = [
+    google_project_service.dns_standalone
   ]
+}
+
+resource "google_dns_record_set" "storage_a_psc" {
+  project      = "myproject-standalone"
+  managed_zone = google_dns_managed_zone.pz_storage_googleapis.name
+
+  name    = "storage.googleapis.com."
+  type    = "A"
+  ttl     = 300
+  rrdatas = [google_compute_global_address.psc_googleapis_ip.address]
 }
