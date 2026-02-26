@@ -1,22 +1,10 @@
-# Enable the NCC API in the project where you create the hub/spokes
-resource "google_project_service" "ncc" {
-  project            = "myproject-standalone"
-  service            = "networkconnectivity.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "ncc_prod" {
-  project            = "myproject-prod-01"
-  service            = "networkconnectivity.googleapis.com"
-  disable_on_destroy = false
-}
-
-# 1) NCC hub (control plane object)
+# NCC hub (control plane object)
 resource "google_network_connectivity_hub" "hub" {
   project     = "myproject-standalone"
   name        = "ncc-hub"
   description = "NCC hub for inter-VPC connectivity"
   depends_on  = [google_project_service.ncc]
+  export_psc  = true
 }
 
 resource "google_network_connectivity_spoke" "vpc_main_standalone" {
