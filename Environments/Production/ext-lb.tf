@@ -6,20 +6,20 @@ module "ext_lb_app" {
   # Define the two unmanaged instance groups already created above:
   group_configs = {
     linux-a = {
-      name        = "uig-linux-a"
-      project_id  = "myproject-testsexon-01"
-      zone        = "europe-west2-a"
-      instances   = [
+      name       = "uig-linux-a"
+      project_id = "myproject-testsexon-01"
+      zone       = "europe-west2-a"
+      instances = [
         "projects/myproject-testsexon-01/zones/europe-west2-a/instances/linux-vm-01"
       ]
       named_ports = { http = 80 }
     }
 
     linux-b = {
-      name        = "uig-linux-b"
-      project_id  = "myproject-testsexon-01"
-      zone        = "europe-west2-b"
-      instances   = [
+      name       = "uig-linux-b"
+      project_id = "myproject-testsexon-01"
+      zone       = "europe-west2-b"
+      instances = [
         "projects/myproject-testsexon-01/zones/europe-west2-b/instances/linux-vm-02"
       ]
       named_ports = { http = 80 }
