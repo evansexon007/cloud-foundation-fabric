@@ -86,38 +86,60 @@ module "linux_vm_02" {
 
 }
 
-module "app_vm_a" {
-  source     = "../../modules/compute-vm"
-  project_id = var.service_project_id
-  zone       = "europe-west2-a"
-  name       = "app-01"
+####
 
-  network_interfaces = [{
-    network    = "projects/myproject-prod-01/global/networks/vpc-main"
-    subnetwork = "projects/myproject-prod-01/regions/europe-west2/subnetworks/subnet-test-01"
-  }]
 
-  tags = ["lb-backend"]
+###############################################################################
+# Unmanaged Instance Group (UIG) - Zone europe-west2-a (contains linux-vm-01)
+###############################################################################
+resource "google_compute_instance_group" "uig_linux_a" {
+  project = "myproject-testsexon-01"
+  name    = "uig-linux-a"
+  zone    = "europe-west2-a"
 
-  group = {
-    named_ports = { http = 80 }
+  # Add VM1 (must be in the same zone)
+  instances = [
+    "projects/myproject-testsexon-01/zones/europe-west2-a/instances/linux-vm-01"
+  ]
+
+  # Optional but recommended for LB backend services (port_name must match)
+  named_port {
+    name = "http"
+    port = 80
   }
+
+  # Optional: set the network self link (Shared VPC host project)
+  network = "projects/myproject-prod-01/global/networks/vpc-main"
 }
 
-module "app_vm_b" {
-  source     = "../../modules/compute-vm"
-  project_id = var.service_project_id
-  zone       = "europe-west2-b"
-  name       = "app-02"
+###############################################################################
+# Unmanaged Instance Group (UIG) - Zone europe-west2-b (contains linux-vm-02)
+###############################################################################
+resource "google_compute_instance_group" "uig_linux_b" {
+  project = "myproject-testsexon-01"
+  name    = "uig-linux-b"
+  zone    = "europe-west2-b"
 
-  network_interfaces = [{
-    network    = "projects/myproject-prod-01/global/networks/vpc-main"
-    subnetwork = "projects/myproject-prod-01/regions/europe-west2/subnetworks/subnet-test-01"
-  }]
+  # Add VM2 (must be in the same zone)
+  instances = [
+    "projects/myproject-testsexon-01/zones/europe-west2-b/instances/linux-vm-02"
+  ]
 
-  tags = ["lb-backend"]
-
-  group = {
-    named_ports = { http = 80 }
+  named_port {
+    name = "http"
+    port = 80
   }
+
+  network = "projects/myproject-prod-01/global/networks/vpc-main"
+}
+
+###############################################################################
+# Outputs (handy for wiring into a backend_service)
+###############################################################################
+output "uig_linux_a_self_link" {
+  value = google_compute_instance_group.uig_linux_a.self_link
+}
+
+output "uig_linux_b_self_link" {
+  value = google_compute_instance_group.uig_linux_b.self_link
 }
