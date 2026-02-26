@@ -71,15 +71,32 @@ resource "google_project_service" "compute_standalone" {
   disable_on_destroy = false
 }
 
+resource "google_compute_subnetwork" "psc_nat_subnet" {
+  project       = "myproject-standalone"
+  name          = "subnet-psc-nat"
+  region        = "europe-west2"
+  network       = module.vpc_main_standalone.self_link
+  ip_cidr_range = "10.250.0.0/24"
+
+  purpose = "PRIVATE_SERVICE_CONNECT"
+  role    = "ACTIVE"
+
+  depends_on = [
+    google_project_service.compute_standalone
+  ]
+}
+
 resource "google_compute_global_address" "psc_googleapis_ip" {
   project      = "myproject-standalone"
   name         = "psc-googleapis-ip"
   address_type = "INTERNAL"
   purpose      = "PRIVATE_SERVICE_CONNECT"
   network      = module.vpc_main_standalone.self_link
-  address      = "10.220.0.50"
+
+  # choose an IP inside the PSC subnet range you created above
+  address = "10.250.0.10"
 
   depends_on = [
-    google_project_service.compute_standalone
+    google_compute_subnetwork.psc_nat_subnet
   ]
 }
