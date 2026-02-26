@@ -201,7 +201,5 @@ resource "google_compute_global_forwarding_rule" "psc_googleapis" {
   load_balancing_scheme = ""
 
   depends_on = [
-    google_project_service.servicedirectory_standalone,
-    google_project_service.dns_standalone
   ]
 }
