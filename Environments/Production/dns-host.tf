@@ -14,18 +14,7 @@ resource "google_dns_policy" "inbound_forwarding" {
   ]
 }
 
-resource "google_project_service" "dns" {
-  project            = "myproject-standalone"
-  provider           = google.standalone
-  service            = "dns.googleapis.com"
-  disable_on_destroy = false
-}
 
-resource "google_project_service" "dns2" {
-  project            = "myproject-prod-01"
-  service            = "dns.googleapis.com"
-  disable_on_destroy = false
-}
 
 module "dns_test_evancloud_private" {
   source = "../../modules/dns"
@@ -63,13 +52,6 @@ module "dns_test_evancloud_private" {
     }
   }
 }
-
-resource "google_project_service" "dns_standalone" {
-  project            = "myproject-standalone"
-  service            = "dns.googleapis.com"
-  disable_on_destroy = false
-}
-
 
 module "dns_peer_testevan_to_hub" {
   source = "../../modules/dns"

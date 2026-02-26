@@ -30,12 +30,7 @@ module "vpc_main" {
   ]
 }
 
-resource "google_project_service" "compute" {
-  project = "myproject-prod-01"
-  service = "compute.googleapis.com"
 
-  disable_on_destroy = false
-}
 
 module "vpc_main_standalone" {
   source     = "../../modules/net-vpc"
@@ -64,12 +59,7 @@ module "vpc_main_standalone" {
   ]
 }
 
-resource "google_project_service" "compute_standalone" {
-  project = "myproject-standalone"
-  service = "compute.googleapis.com"
 
-  disable_on_destroy = false
-}
 
 resource "google_compute_global_address" "psc_googleapis_ip" {
   project      = "myproject-standalone"
