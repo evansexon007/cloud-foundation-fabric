@@ -191,3 +191,23 @@ module "dns_forward_rws_local" {
 #    # or module.dns_googleapis_restricted_private_hub if you used restricted
 #  ]
 #}
+
+resource "google_project_service" "dns_standalone" {
+  project            = "myproject-standalone"
+  service            = "dns.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_compute_global_forwarding_rule" "psc_googleapis" {
+  project               = "myproject-standalone"
+  name                  = "googleapis"
+  network               = module.vpc_main_standalone.self_link
+  ip_address            = google_compute_global_address.psc_googleapis_ip.id
+  target                = "all-apis"     # or "vpc-sc"
+  load_balancing_scheme = ""
+
+  depends_on = [
+    google_project_service.servicedirectory_standalone,
+    google_project_service.dns_standalone
+  ]
+}
