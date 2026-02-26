@@ -125,3 +125,69 @@ module "dns_forward_rws_local" {
     google_project_service.dns2
   ]
 }
+
+###
+
+
+module "dns_googleapis_private_hub" {
+  source = "../../modules/dns"
+
+  project_id    = "myproject-standalone"
+  name          = "pz-googleapis"
+  description   = "Private zone override for googleapis.com -> private.googleapis.com (PGA)"
+  force_destroy = false
+
+  zone_config = {
+    domain = "googleapis.com."
+
+    private = {
+      client_networks = [
+        module.vpc_main_standalone.self_link
+      ]
+    }
+  }
+
+  recordsets = {
+    # A records for the PGA VIPs
+    "A private" = {
+      ttl     = 300
+      records = ["199.36.153.8", "199.36.153.9", "199.36.153.10", "199.36.153.11"]
+    }
+
+    # Wildcard all Google APIs to private.googleapis.com
+    "CNAME *" = {
+      ttl     = 300
+      records = ["private.googleapis.com."]
+    }
+  }
+
+  depends_on = [
+    google_project_service.dns
+  ]
+}
+
+module "dns_peer_googleapis_to_hub" {
+  source = "../../modules/dns"
+
+  project_id  = var.host_project_id
+  name        = "peer-googleapis-to-hub"
+  description = "Peering zone so Shared VPC can resolve googleapis.com via Hub DNS"
+
+  zone_config = {
+    domain = "googleapis.com."
+    peering = {
+      client_networks = [
+        module.vpc_main.self_link
+      ]
+      peer_network = module.vpc_main_standalone.self_link
+    }
+  }
+
+  recordsets = {}
+
+  depends_on = [
+    google_project_service.dns2,
+    module.dns_googleapis_private_hub
+    # or module.dns_googleapis_restricted_private_hub if you used restricted
+  ]
+}
