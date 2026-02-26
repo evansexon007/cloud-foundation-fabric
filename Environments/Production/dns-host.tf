@@ -192,12 +192,6 @@ module "dns_forward_rws_local" {
 #  ]
 #}
 
-resource "google_project_service" "dns_standalone" {
-  project            = "myproject-standalone"
-  service            = "dns.googleapis.com"
-  disable_on_destroy = false
-}
-
 resource "google_compute_global_forwarding_rule" "psc_googleapis" {
   project               = "myproject-standalone"
   name                  = "googleapis"
