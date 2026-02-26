@@ -92,6 +92,28 @@ module "dns_peer_testevan_to_hub" {
   ]
 }
 
+module "dns_peer_testevan_to_hub_storageapi" {
+  source = "../../modules/dns"
+
+  project_id  = var.host_project_id
+  name        = "peer-storageapi-to-hub"
+  description = "Peering zone so Shared VPC can resolve storageapivia Hub DNS"
+
+  zone_config = {
+    domain = "storage.googleapis.com."
+    peering = {
+      client_networks = [
+        module.vpc_main.self_link
+      ]
+      peer_network = module.vpc_main_standalone.self_link
+    }
+  }
+  depends_on = [
+    google_project_service.dns2
+  ]
+}
+
+
 ## custom forwarders
 
 module "dns_forward_rws_local" {
