@@ -218,3 +218,5 @@ resource "google_dns_record_set" "storage_a_psc" {
   ttl     = 300
   rrdatas = [google_compute_global_address.psc_googleapis_ip.address]
 }
+
+resource "google_compute_global_forwarding_rule" "psc_googleapis" { project = "myproject-standalone" name = "googleapis" network = module.vpc_main_standalone.self_link ip_address = google_compute_global_address.psc_googleapis_ip.id target = "all-apis" # or "vpc-sc" load_balancing_scheme = "" depends_on = [ ] }
