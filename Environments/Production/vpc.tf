@@ -81,5 +81,5 @@ resource "google_compute_global_address" "psc_googleapis_ip" {
   address = "10.250.0.10"
 
   depends_on = [
-    ]
+  ]
 }

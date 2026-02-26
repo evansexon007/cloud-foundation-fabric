@@ -15,15 +15,15 @@ resource "google_dns_policy" "inbound_forwarding" {
 }
 
 resource "google_project_service" "dns" {
-  project = "myproject-standalone"
-  provider = google.standalone
-  service = "dns.googleapis.com"
+  project            = "myproject-standalone"
+  provider           = google.standalone
+  service            = "dns.googleapis.com"
   disable_on_destroy = false
 }
 
 resource "google_project_service" "dns2" {
-  project = "myproject-prod-01"
-  service = "dns.googleapis.com"
+  project            = "myproject-prod-01"
+  service            = "dns.googleapis.com"
   disable_on_destroy = false
 }
 
@@ -65,8 +65,8 @@ module "dns_test_evancloud_private" {
 }
 
 resource "google_project_service" "dns_standalone" {
-  project = "myproject-standalone"
-  service = "dns.googleapis.com"
+  project            = "myproject-standalone"
+  service            = "dns.googleapis.com"
   disable_on_destroy = false
 }
 
@@ -95,11 +95,11 @@ module "dns_peer_testevan_to_hub" {
 ## custom forwarders
 
 module "dns_forward_rws_local" {
-  source      = "../../modules/dns"
+  source = "../../modules/dns"
 
-  project_id  = var.host_project_id
-  name        = "fz-rws-local"
-  description = "Forwarding zone for AD domain rws.local"
+  project_id    = var.host_project_id
+  name          = "fz-rws-local"
+  description   = "Forwarding zone for AD domain rws.local"
   force_destroy = false
 
   zone_config = {
@@ -107,7 +107,7 @@ module "dns_forward_rws_local" {
 
     forwarding = {
       client_networks = [
-        module.vpc_main.self_link   # Shared VPC HOST network self_link
+        module.vpc_main.self_link # Shared VPC HOST network self_link
       ]
 
       # map(name => ipv4)
@@ -130,15 +130,15 @@ module "dns_forward_rws_local" {
 
 
 #module "dns_googleapis_private_hub" {
- # source = "../../modules/dns"
+# source = "../../modules/dns"
 #
- # project_id    = "myproject-standalone"
- # name          = "pz-googleapis"
- # description   = "Private zone override for googleapis.com -> private.googleapis.com (PGA)"
- # force_destroy = false
+# project_id    = "myproject-standalone"
+# name          = "pz-googleapis"
+# description   = "Private zone override for googleapis.com -> private.googleapis.com (PGA)"
+# force_destroy = false
 
- # zone_config = {
- #   domain = "googleapis.com."
+# zone_config = {
+#   domain = "googleapis.com."
 #
 #    private = {
 #      client_networks = [
@@ -219,4 +219,14 @@ resource "google_dns_record_set" "storage_a_psc" {
   rrdatas = [google_compute_global_address.psc_googleapis_ip.address]
 }
 
-resource "google_compute_global_forwarding_rule" "psc_googleapis" { project = "myproject-standalone" name = "googleapis" network = module.vpc_main_standalone.self_link ip_address = google_compute_global_address.psc_googleapis_ip.id target = "all-apis" # or "vpc-sc" load_balancing_scheme = "" depends_on = [ ] }
+resource "google_compute_global_forwarding_rule" "psc_googleapis" {
+  project               = "myproject-standalone"
+  name                  = "googleapis"
+  network               = module.vpc_main_standalone.network_id # Use ID/self_link from your module
+  ip_address            = google_compute_global_address.psc_googleapis_ip.id
+  load_balancing_scheme = "EXTERNAL_MANAGED" # Or omit if using default, but must not be ""
+  target                = "all-apis"         # This is a shorthand that works in some providers, but full URL is safer
+
+  # For PSC to Google APIs, use the service attachment:
+  # target = "https://www.googleapis.com/compute/v1/projects/google/global/networks/google-apis"
+}
