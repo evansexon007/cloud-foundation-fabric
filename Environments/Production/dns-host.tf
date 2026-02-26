@@ -98,16 +98,16 @@ module "dns_peer_testevan_to_hub_storageapi" {
 
 ## custom forwarders
 
-module "dns_forward_rws_local" {
+module "dns_forward_evancloud_local" {
   source = "../../modules/dns"
 
   project_id    = var.host_project_id
-  name          = "fz-rws-local"
-  description   = "Forwarding zone for AD domain rws.local"
+  name          = "fz-evancloud-local"
+  description   = "Forwarding zone for AD domain evancloud.local"
   force_destroy = false
 
   zone_config = {
-    domain = "rws.local."
+    domain = "evancloud.local."
 
     forwarding = {
       client_networks = [
