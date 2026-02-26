@@ -222,11 +222,8 @@ resource "google_dns_record_set" "storage_a_psc" {
 resource "google_compute_global_forwarding_rule" "psc_googleapis" {
   project               = "myproject-standalone"
   name                  = "googleapis"
-  network               = module.vpc_main_standalone.network_id # Use ID/self_link from your module
-  ip_address            = google_compute_global_address.psc_googleapis_ip.id
-  load_balancing_scheme = "EXTERNAL_MANAGED" # Or omit if using default, but must not be ""
-  target                = "all-apis"         # This is a shorthand that works in some providers, but full URL is safer
-
-  # For PSC to Google APIs, use the service attachment:
-  # target = "https://www.googleapis.com/compute/v1/projects/google/global/networks/google-apis"
+  network               = module.vpc_main_standalone.self_link   # must be self_link
+  ip_address            = google_compute_global_address.psc_googleapis_ip.address
+  target                = "all-apis"    # or "vpc-sc"
+  load_balancing_scheme = ""
 }
