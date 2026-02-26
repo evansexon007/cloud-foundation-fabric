@@ -85,3 +85,39 @@ module "linux_vm_02" {
   ]
 
 }
+
+module "app_vm_a" {
+  source     = "../../modules/compute-vm"
+  project_id = var.service_project_id
+  zone       = "europe-west2-a"
+  name       = "app-01"
+
+  network_interfaces = [{
+    network    = "projects/myproject-prod-01/global/networks/vpc-main"
+    subnetwork = "projects/myproject-prod-01/regions/europe-west2/subnetworks/subnet-test-01"
+  }]
+
+  tags = ["lb-backend"]
+
+  group = {
+    named_ports = { http = 80 }
+  }
+}
+
+module "app_vm_b" {
+  source     = "../../modules/compute-vm"
+  project_id = var.service_project_id
+  zone       = "europe-west2-b"
+  name       = "app-02"
+
+  network_interfaces = [{
+    network    = "projects/myproject-prod-01/global/networks/vpc-main"
+    subnetwork = "projects/myproject-prod-01/regions/europe-west2/subnetworks/subnet-test-01"
+  }]
+
+  tags = ["lb-backend"]
+
+  group = {
+    named_ports = { http = 80 }
+  }
+}
