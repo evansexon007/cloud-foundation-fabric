@@ -3,9 +3,12 @@ module "gcs_bucket" {
 
   bucket_create = true
   project_id    = var.service_project_id
-  location      = "europe-west2-a"
-  prefix        = "evancloud"
-  name          = "tf-state"
+
+  # ✅ bucket location must be REGION or MULTI_REGION, not a zone
+  location = "europe-west2" # London region
+
+  prefix = "evancloud"
+  name   = "tf-state"
 
   storage_class = "STANDARD"
 
@@ -21,7 +24,6 @@ module "gcs_bucket" {
     app   = "terraform"
   }
 
-  # Simple lifecycle example (optional)
   lifecycle_rules = {
     delete_noncurrent_after_30d = {
       action = {
@@ -33,4 +35,7 @@ module "gcs_bucket" {
       }
     }
   }
+
+  # Optional: keep “accidental delete” recovery window (if your module wires this to the bucket feature)
+  # soft_delete_retention = 604800 # 7 days in seconds
 }
