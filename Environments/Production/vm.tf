@@ -85,13 +85,3 @@ module "linux_vm_02" {
   ]
 
 }
-
-resource "google_tags_tag_key" "role" {
-  parent     = "organizations/${var.org_id}"
-  short_name = "role"
-}
-
-resource "google_tags_tag_value" "lb_backend" {
-  parent     = google_tags_tag_key.role.name
-  short_name = "lb-backend"
-}
