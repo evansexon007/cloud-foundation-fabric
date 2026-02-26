@@ -29,7 +29,7 @@ module "linux_vm_01" {
   ]
 
   # Optional but recommended
-  tags = ["linux", "ssh"]
+  tags = ["lb-backend"]
 
   service_account = {
     email  = google_service_account.web_sa.email
@@ -73,7 +73,7 @@ module "linux_vm_02" {
   ]
 
   # Optional but recommended
-  tags = ["linux", "ssh"]
+  tags = ["lb-backend"]
 
   service_account = {
     email  = google_service_account.web_sa.email
