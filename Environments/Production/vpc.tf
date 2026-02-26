@@ -70,3 +70,16 @@ resource "google_project_service" "compute_standalone" {
 
   disable_on_destroy = false
 }
+
+resource "google_compute_global_address" "psc_googleapis_ip" {
+  project      = "myproject-standalone"
+  name         = "psc-googleapis-ip"
+  address_type = "INTERNAL"
+  purpose      = "PRIVATE_SERVICE_CONNECT"
+  network      = module.vpc_main_standalone.self_link
+  address      = "10.220.0.50"
+
+  depends_on = [
+    google_project_service.compute_standalone
+  ]
+}
