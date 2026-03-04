@@ -1,6 +1,6 @@
 module "vpc_main" {
   source     = "../../modules/net-vpc"
-  project_id = "myproject-prod-01"
+  project_id = "pj-security"
   name       = "vpc-main"
 
   subnets = [
@@ -26,7 +26,7 @@ module "vpc_main" {
   ]
   shared_vpc_host = true
   shared_vpc_service_projects = [
-    "myproject-testsexon-01"
+    "pj-serviceproject"
   ]
 }
 
@@ -34,7 +34,7 @@ module "vpc_main" {
 
 module "vpc_main_standalone" {
   source     = "../../modules/net-vpc"
-  project_id = "myproject-standalone"
+  project_id = "pj-hub"
   name       = "vpc-hub"
 
   subnets = [
@@ -62,7 +62,7 @@ module "vpc_main_standalone" {
 
 
 resource "google_compute_global_address" "psc_googleapis_ip" {
-  project      = "myproject-standalone"
+  project      = "pj-hub"
   name         = "psc-googleapis-ip"
   address_type = "INTERNAL"
   purpose      = "PRIVATE_SERVICE_CONNECT"

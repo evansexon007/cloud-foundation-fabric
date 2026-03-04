@@ -1,6 +1,6 @@
 # NCC hub (control plane object)
 resource "google_network_connectivity_hub" "hub" {
-  project     = "myproject-standalone"
+  project     = "pj-hub"
   name        = "ncc-hub"
   description = "NCC hub for inter-VPC connectivity"
   depends_on  = [google_project_service.ncc]
@@ -8,7 +8,7 @@ resource "google_network_connectivity_hub" "hub" {
 }
 
 resource "google_network_connectivity_spoke" "vpc_main_standalone" {
-  project  = "myproject-standalone"
+  project  = "pj-hub"
   name     = "vpc_main_standalone"
   location = "global"
   hub      = google_network_connectivity_hub.hub.id
@@ -19,7 +19,7 @@ resource "google_network_connectivity_spoke" "vpc_main_standalone" {
 }
 
 resource "google_network_connectivity_spoke" "spoke_vpc_vpc_main" {
-  project  = "myproject-prod-01"
+  project  = "pj-security"
   name     = "vpc_main"
   location = "global"
   hub      = google_network_connectivity_hub.hub.id

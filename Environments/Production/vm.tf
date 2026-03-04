@@ -1,7 +1,7 @@
 module "linux_vm_01" {
   source = "../../modules/compute-vm"
 
-  project_id = "myproject-testsexon-01"
+  project_id = "pj-serviceproject"
   name       = "linux-vm-01"
   zone       = "europe-west2-a"
 
@@ -21,8 +21,8 @@ module "linux_vm_01" {
   network_interfaces = [
     {
       # ✅ Shared VPC: use SELF LINKS owned by HOST project
-      network    = "projects/myproject-prod-01/global/networks/vpc-main"
-      subnetwork = "projects/myproject-prod-01/regions/europe-west2/subnetworks/subnet-test-01"
+      network    = "projects/pj-security/global/networks/vpc-main"
+      subnetwork = "projects/pj-security/regions/europe-west2/subnetworks/subnet-test-01"
 
       nat = false
     }
@@ -45,7 +45,7 @@ module "linux_vm_01" {
 module "linux_vm_02" {
   source = "../../modules/compute-vm"
 
-  project_id = "myproject-testsexon-01"
+  project_id = "pj-serviceproject"
   name       = "linux-vm-02"
   zone       = "europe-west2-b"
 
@@ -65,8 +65,8 @@ module "linux_vm_02" {
   network_interfaces = [
     {
       # ✅ Shared VPC: use SELF LINKS owned by HOST project
-      network    = "projects/myproject-prod-01/global/networks/vpc-main"
-      subnetwork = "projects/myproject-prod-01/regions/europe-west2/subnetworks/subnet-test-01"
+      network    = "projects/pj-security/global/networks/vpc-main"
+      subnetwork = "projects/pj-security/regions/europe-west2/subnetworks/subnet-test-01"
 
       nat = false
     }

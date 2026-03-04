@@ -19,7 +19,7 @@ resource "google_dns_policy" "inbound_forwarding" {
 module "dns_test_evancloud_private" {
   source = "../../modules/dns"
 
-  project_id    = "myproject-standalone"
+  project_id    = "pj-hub"
   name          = "pz-test-evancloud-co-uk"
   description   = "Private zone for test.evancloud.co.uk"
   force_destroy = true
@@ -197,7 +197,7 @@ module "dns_forward_evancloud_local" {
 #}
 
 resource "google_dns_managed_zone" "pz_storage_googleapis" {
-  project    = "myproject-standalone"
+  project    = "pj-hub"
   name       = "pz-storage-googleapis"
   dns_name   = "storage.googleapis.com."
   visibility = "private"
@@ -214,7 +214,7 @@ resource "google_dns_managed_zone" "pz_storage_googleapis" {
 }
 
 resource "google_dns_record_set" "storage_a_psc" {
-  project      = "myproject-standalone"
+  project      = "pj-hub"
   managed_zone = google_dns_managed_zone.pz_storage_googleapis.name
 
   name    = "storage.googleapis.com."
@@ -224,7 +224,7 @@ resource "google_dns_record_set" "storage_a_psc" {
 }
 
 resource "google_compute_global_forwarding_rule" "psc_googleapis" {
-  project               = "myproject-standalone"
+  project               = "pj-hub"
   name                  = "googleapis"
   network               = module.vpc_main_standalone.self_link # must be self_link
   ip_address            = google_compute_global_address.psc_googleapis_ip.address
