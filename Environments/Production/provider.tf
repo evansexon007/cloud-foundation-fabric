@@ -8,15 +8,15 @@ terraform {
 }
 
 provider "google" {
-  project = "pj-security"
+  project = "pj-security-489212"
 }
 
 provider "google" {
   alias   = "standalone"
-  project = "pj-hub"
+  project = "project-b73220da-bbd3-45c3-89d"
 }
 
 provider "google" {
   alias   = "serviceproject"
-  project = "pj-serviceproject"
+  project = "pf-serviceproject"
 }

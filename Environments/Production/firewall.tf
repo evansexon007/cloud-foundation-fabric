@@ -7,7 +7,7 @@ module "fw_policy_shared_vpc_admin" {
   region      = "global"
 
   attachments = {
-    shared-vpc = "https://www.googleapis.com/compute/v1/projects/pj-security/global/networks/vpc-main"
+    shared-vpc = "https://www.googleapis.com/compute/v1/projects/pj-security-489212/global/networks/vpc-main"
   }
 
   ingress_rules = {
