@@ -8,6 +8,7 @@ terraform {
 }
 
 provider "google" {
+  alias   = "servieproject"
   project = "pj-security-489212"
 }
 
