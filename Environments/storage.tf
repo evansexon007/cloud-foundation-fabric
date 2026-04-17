@@ -1,5 +1,5 @@
 module "gcs_bucket" {
-  source = "../../modules/gcs"
+  source = "../modules/gcs"
 
   bucket_create = true
   project_id    = var.service_project_id

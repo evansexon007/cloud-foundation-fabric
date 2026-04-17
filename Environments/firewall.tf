@@ -1,5 +1,5 @@
 module "fw_policy_shared_vpc_admin" {
-  source = "../../modules/net-firewall-policy"
+  source = "../modules/net-firewall-policy"
 
   name        = "fw-sharedvpc-admin"
   description = "Shared VPC firewall rules"

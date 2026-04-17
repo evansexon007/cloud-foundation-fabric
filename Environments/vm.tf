@@ -1,5 +1,5 @@
 module "linux_vm_01" {
-  source = "../../modules/compute-vm"
+  source = "../modules/compute-vm"
 
   project_id = var.service_project_id
   name       = "linux-vm-01"
@@ -43,7 +43,7 @@ module "linux_vm_01" {
 }
 
 module "linux_vm_02" {
-  source = "../../modules/compute-vm"
+  source = "../modules/compute-vm"
 
   project_id = var.service_project_id
   name       = "linux-vm-02"

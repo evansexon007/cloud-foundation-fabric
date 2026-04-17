@@ -1,5 +1,5 @@
 module "nat_shared_vpc" {
-  source     = "../../modules/net-cloudnat"
+  source     = "../modules/net-cloudnat"
   project_id = var.host_project_id
   region     = "europe-west2"
   name       = "nat-europe-west2"

@@ -1,5 +1,5 @@
 module "vpc_main" {
-  source     = "../../modules/net-vpc"
+  source     = "../modules/net-vpc"
   project_id = var.host_project_id
   name       = "vpc-main"
 
@@ -33,7 +33,7 @@ module "vpc_main" {
 
 
 module "vpc_main_standalone" {
-  source     = "../../modules/net-vpc"
+  source     = "../modules/net-vpc"
   project_id = var.standalone_service_project_id
   name       = "vpc-hub"
 

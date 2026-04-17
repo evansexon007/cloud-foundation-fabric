@@ -17,7 +17,7 @@ resource "google_dns_policy" "inbound_forwarding" {
 
 
 module "dns_test_evancloud_private" {
-  source = "../../modules/dns"
+  source = "../modules/dns"
 
   project_id    = var.standalone_service_project_id
   name          = "pz-test-evancloud-co-uk"
@@ -54,7 +54,7 @@ module "dns_test_evancloud_private" {
 }
 
 module "dns_peer_testevan_to_hub" {
-  source = "../../modules/dns"
+  source = "../modules/dns"
 
   project_id  = var.host_project_id
   name        = "peer-testevan-to-hub"
@@ -75,7 +75,7 @@ module "dns_peer_testevan_to_hub" {
 }
 
 module "dns_peer_testevan_to_hub_storageapi" {
-  source = "../../modules/dns"
+  source = "../modules/dns"
 
   project_id  = var.host_project_id
   name        = "peer-storageapi-to-hub"
@@ -99,7 +99,7 @@ module "dns_peer_testevan_to_hub_storageapi" {
 ## custom forwarders
 
 module "dns_forward_evancloud_local" {
-  source = "../../modules/dns"
+  source = "../modules/dns"
 
   project_id    = var.host_project_id
   name          = "fz-evancloud-local"
@@ -134,7 +134,7 @@ module "dns_forward_evancloud_local" {
 
 
 #module "dns_googleapis_private_hub" {
-# source = "../../modules/dns"
+# source = "../modules/dns"
 #
 # project_id    = "myproject-standalone"
 # name          = "pz-googleapis"
@@ -171,7 +171,7 @@ module "dns_forward_evancloud_local" {
 #}
 
 #module "dns_peer_googleapis_to_hub" {
-#  source = "../../modules/dns"
+#  source = "../modules/dns"
 
 #  project_id  = var.host_project_id
 #  name        = "peer-googleapis-to-hub"
