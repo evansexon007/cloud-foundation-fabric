@@ -1,0 +1,42 @@
+name: Bootstrap Terraform apply
+
+on:
+  workflow_dispatch: 
+
+env:
+  TF_CLOUD_ORGANIZATION: ${{ vars.TF_CLOUD_ORGANIZATION }}
+  TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+  TF_WORKSPACE: ${{ vars.TF_WORKSPACE }}
+  TF_DIRECTORY: ${{ vars.TF_DIRECTORY }}
+
+jobs:
+  terraform:
+    name: Bootstrap manual apply
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Repo checkout to Ubuntu runner
+        uses: actions/checkout@v6
+
+      - name: Upload configuration to HCP Terraform
+        id: upload
+        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.3.2
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          directory: ${{ env.TF_DIRECTORY }}
+          speculative: false
+
+      - name: Create HCP Terraform run - for manual apply
+        id: run
+        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.3.2
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          configuration_version: ${{ steps.upload.outputs.configuration_version_id }}
+          message: "Bootstrap manual apply|Ref: ${{ github.ref_name }}|GH run: ${{ github.run_number }} by ${{ github.actor }}|(SHA: ${{ github.sha }})"
+          plan_only: false
+
+      - name: Show HCP run link
+        run: |
+          echo "Run URL: ${{ steps.run.outputs.run_link }}"
