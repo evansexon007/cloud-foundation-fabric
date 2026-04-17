@@ -1,5 +1,5 @@
 module "vpc_main" {
-  source     = "github.com/evansexon007/cloud-foundation-fabric/tree/master/modules/net-vpc"
+  source     = "github.com/evansexon007/cloud-foundation-fabric/modules/net-vpc?ref=master"
   project_id = var.host_project_id
   name       = "vpc-main"
 
@@ -33,7 +33,7 @@ module "vpc_main" {
 
 
 module "vpc_main_standalone" {
-  source     = "github.com/evansexon007/cloud-foundation-fabric/tree/master/modules/net-vpc"
+  source     = "github.com/evansexon007/cloud-foundation-fabric/modules/net-vpc?ref=master"
   project_id = var.standalone_service_project_id
   name       = "vpc-hub"
 
