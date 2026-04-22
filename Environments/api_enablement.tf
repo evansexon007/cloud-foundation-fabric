@@ -11,11 +11,11 @@ resource "google_project_service" "dns2" {
   disable_on_destroy = false
 }
 
-resource "google_project_service" "dns_standalone" {
-  project            = var.standalone_service_project_id
-  service            = "dns.googleapis.com"
-  disable_on_destroy = false
-}
+# resource "google_project_service" "dns_standalone" {
+#   project            = var.standalone_service_project_id
+#   service            = "dns.googleapis.com"
+#   disable_on_destroy = false
+# }
 
 resource "google_project_service" "compute_standalone" {
   project = var.standalone_service_project_id
